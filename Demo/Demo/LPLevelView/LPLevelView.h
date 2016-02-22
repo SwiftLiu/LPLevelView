@@ -18,20 +18,13 @@
 @property (strong, nonatomic) UIImage *iconEmpty;
 ///默认图标颜色，设置了该属性将使用默认图标
 @property (strong, nonatomic) UIColor *iconColor;
-
-///图片间距，默认的间距使得各图标横向均匀分布
-@property (assign, nonatomic, getter=badgeSpacing) CGFloat iconSpacing;
-///图片放大缩小倍数，默认1.0倍
-@property (assign, nonatomic, getter=badgeSizeScale) CGFloat iconSizeScale;
-///图片尺寸
-@property (assign, nonatomic, getter=badgeSize) CGSize iconSize;
-///图片绘制总宽度
-@property (assign, nonatomic, readonly) CGFloat vaildWidth;
+///图片尺寸，默认为iconFull图标的尺寸，同时自适应self尺寸
+@property (assign, nonatomic) CGSize iconSize;
 
 ///星级，默认为0
 @property (assign, nonatomic) float level;
 ///星级是否必须为整数，默认为否
-@property (assign, nonatomic) BOOL levelIntEnable;
+@property (assign, nonatomic) BOOL levelInt;
 ///最大等级，默认为5
 @property (assign, nonatomic) int maxLevel;
 

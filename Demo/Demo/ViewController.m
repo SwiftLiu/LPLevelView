@@ -20,19 +20,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //storyboard生成
-    levelView.level = 2.5;
-    levelView.iconColor = [UIColor redColor];
-    levelView.canScore = YES;
-    
     //纯代码初始化
     LPLevelView *lView = [LPLevelView new];
-    lView.frame = CGRectMake(levelView.frame.origin.x, 150, levelView.frame.size.width, levelView.frame.size.height);
-    lView.level = 3.5;
+    lView.frame = CGRectMake(100, 150, levelView.frame.size.width, levelView.frame.size.height);
     lView.iconColor = [UIColor orangeColor];
     lView.canScore = YES;
     lView.animated = YES;
+    lView.level = 3.5;
     [self.view addSubview:lView];
+    
+    //storyboard生成
+    levelView.backgroundColor = [UIColor clearColor];
+    levelView.iconColor = [UIColor redColor];
+    levelView.canScore = YES;
+    levelView.levelInt = YES;
+    levelView.iconFull = [UIImage imageNamed:@"lp_badge_star_full"];
+    levelView.iconHalf = [UIImage imageNamed:@"lp_badge_star_half"];
+    levelView.iconEmpty = [UIImage imageNamed:@"lp_badge_star_empty"];
+    levelView.level = 2.5;
 }
 
 @end

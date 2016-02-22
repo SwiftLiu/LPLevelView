@@ -7,15 +7,6 @@
 //
 
 #import "LPLevelView.h"
-
-#define DefaultAnimateColor [UIColor orangeColor]
-
-#define DefaultIconSize CGSizeMake(20, 20)
-
-#define DefaultFullIcon [UIImage imageNamed:@"lp_badge_star_full"]
-#define DefaultHalfIcon [UIImage imageNamed:@"lp_badge_star_half"]
-#define DefaultEmptyIcon [UIImage imageNamed:@"lp_badge_star_empty"]
-
 @interface LPLevelView ()
 {
     UILabel *animateLabel;//评分时动画显示分数
@@ -42,14 +33,19 @@
 
 - (void)initData
 {
-    _iconSizeScale = 1;
-    self.maxLevel = 5;
+    _maxLevel = 5;
+    _iconFull = [UIImage imageNamed:@"lp_badge_star_full"];
+    _iconHalf = [UIImage imageNamed:@"lp_badge_star_half"];
+    _iconEmpty = [UIImage imageNamed:@"lp_badge_star_empty"];
 }
 
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    self.maxLevel = _maxLevel;
+    if (!CGSizeEqualToSize(self.frame.size, frame.size)) {
+        self.maxLevel = _maxLevel;
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)addSubview:(UIView *)view
@@ -60,6 +56,14 @@
 }
 
 #pragma mark - 设置属性值
+- (void)setLevel:(float)level
+{
+    if (_level != level) {
+        _level = level;
+        [self setNeedsDisplay];
+    }
+}
+
 - (void)setCanScore:(BOOL)canScore
 {
     _canScore = canScore;
@@ -67,37 +71,13 @@
     self.clipsToBounds = NO;
 }
 
-- (void)setLevel:(float)level
-{
-    _level = level;
-    [self setNeedsDisplay];
-}
-
-- (void)setIconColor:(UIColor *)iconColor
-{
-    _iconColor = iconColor;
-    [self setNeedsDisplay];
-}
-
 - (void)setMaxLevel:(int)maxLevel
 {
     if (maxLevel==0) maxLevel = 5;
-    _iconSpacing = (self.bounds.size.width - DefaultIconSize.width*maxLevel)/((CGFloat)maxLevel);
     if (maxLevel != _maxLevel) {
         _maxLevel = maxLevel;
-        [self setNeedsDisplay];
     }
 }
-
-- (void)setIconSizeScale:(CGFloat)iconSizeScale
-{
-    if (iconSizeScale==0) iconSizeScale = 1;
-    if (iconSizeScale != _iconSizeScale) {
-        _iconSizeScale = iconSizeScale;
-        [self setNeedsDisplay];
-    }
-}
-
 
 
 #pragma mark - 绘图
@@ -108,7 +88,7 @@
     //绘制默认图标
     if (_iconColor) {
         CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
-        CGContextSetFillColorWithColor(context, [UIColor orangeColor].CGColor);
+        CGContextSetFillColorWithColor(context, _iconColor.CGColor);
         CGContextFillRect(context, rect);
     }
     //绘制自定义图标
@@ -158,52 +138,59 @@
     */
 }
 
-//绘制图标到指定画布
+//绘制图标到画布
 - (void)drawIcons
 {
-    CGFloat iconX = _iconSpacing/2.l;
+    //计算绘制的图标尺寸
+    CGSize size = [self sizeOfIcon];
+    //纵坐标
+    CGFloat y = (self.bounds.size.height - size.height) / 2.l;
+    //图标间距
+    CGFloat spacing = (self.bounds.size.width - size.width*_maxLevel)/(CGFloat)_maxLevel;
+    //横坐标
+    CGFloat x = spacing/2.l;
+    
     for (int i=1; i<=_maxLevel; i++) {
         //①获取图标
         UIImage *iconImg;
-        if (_iconColor) {
-            if (i <= _level) {//整星
-                iconImg = DefaultFullIcon;
-            }else if (i-_level < 1 && !_levelIntEnable) {//半星
-                iconImg = DefaultHalfIcon;
-            }else {//空星
-                iconImg = DefaultEmptyIcon;
-            }
+        if (i <= _level) {//整星
+            if (_iconFull)  iconImg = _iconFull;
+            else return;
+        }else if (i-_level < 1 && !_levelInt) {//半星
+            if (_iconHalf) iconImg = _iconHalf;
+            else return;
+        }else if (_iconHalf) {//空星
+            iconImg = _iconEmpty;
         }
-        else{
-            if (i <= _level) {//整星
-                if (_iconFull)  iconImg = _iconFull;
-                else return;
-            }else if (i-_level < 1 && !_levelIntEnable) {//半星
-                if (_iconHalf) iconImg = _iconHalf;
-                else return;
-            }else if (_iconHalf) {//空星
-                iconImg = _iconEmpty;
-            }
-        }
-        
-        //②计算绘制的位置尺寸
-        CGSize size;
-        if (_iconSize.width != 0 && _iconSize.height != 0) {
-            size = _iconSize;
-        }else if (_iconColor) {
-            size = DefaultIconSize;
-        }else {
-            size = CGSizeMake(_iconFull.size.width * _iconSizeScale, _iconFull.size.height * _iconSizeScale);
-        }
-        CGFloat y = self.bounds.size.height/2.l - size.height/2.l;
-        CGRect frame = CGRectMake(iconX, y, size.width, size.height);
         
         //③绘制
-        [iconImg drawInRect:frame];
+        [iconImg drawInRect:CGRectMake(x, y, size.width, size.height)];
         
         //④横坐标右移，以便绘制下一个图标
-        iconX += size.width + _iconSpacing;
+        x += size.width + spacing;
     }
+}
+
+//计算绘制的图标尺寸
+- (CGSize)sizeOfIcon
+{
+    //最大宽度
+    CGFloat width = self.bounds.size.width/(CGFloat)_maxLevel;
+    width = MIN(width, _iconFull.size.width);
+    if (_iconSize.width != 0) width = MIN(width, _iconSize.width);
+    //宽度伸缩比
+    CGFloat wScale = width / _iconFull.size.width;
+    //最大高度
+    CGFloat height = self.bounds.size.height;
+    height = MIN(height, _iconFull.size.height);
+    if (_iconSize.height != 0) height = MIN(height, _iconSize.height);
+    //高度伸缩比
+    CGFloat hScale = height / _iconFull.size.height;
+    
+    //实际伸缩比
+    CGFloat scale = MIN(wScale, hScale);
+    //实际尺寸
+    return CGSizeMake(width * scale, height *scale);
 }
 
 
@@ -213,10 +200,10 @@
     if (_canScore) {
         UITouch *touch = [touches anyObject];
         CGFloat touchX = [touch locationInView:self].x;
-        CGFloat wide = [self widthPerIcon];
+        CGFloat wide = self.bounds.size.width / (CGFloat)_maxLevel;
         if (touchX > wide * _maxLevel) return;
         
-        if (_levelIntEnable) {
+        if (_levelInt) {
             self.level = (int)(touchX/wide) + 1;
         }else{
             self.level = ((int)(2 * touchX/wide) + 1) / 2.l;
@@ -233,7 +220,7 @@
     if (!animateLabel) {
         animateLabel = [UILabel new];
         animateLabel.bounds = CGRectMake(0, 0, 50, 20);
-        animateLabel.textColor = _animateColor?:(_iconColor?:DefaultAnimateColor);
+        animateLabel.textColor = _animateColor?:_iconColor;
         animateLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:animateLabel];
     }
@@ -244,24 +231,14 @@
         animateLabel.text = [NSString stringWithFormat:@"%.1f", _level];
     }
     //动画
-    CGFloat x = (ceilf(_level) - .5) * [self widthPerIcon];
+    CGFloat wide = self.bounds.size.width / (CGFloat)_maxLevel;
+    CGFloat x = (ceilf(_level) - .5) * wide;
     animateLabel.center = CGPointMake(x, -10);
     animateLabel.alpha = 1;
     [UIView animateWithDuration:0.7 animations:^{
         animateLabel.center = CGPointMake(x, -40);
         animateLabel.alpha = 0;
     }];
-}
-//每个badge占的宽度
-- (CGFloat)widthPerIcon
-{
-    if (_iconSize.width != 0 && _iconSize.height != 0) {
-        return _iconSize.width + _iconSpacing;
-    }else if (_iconColor) {
-        return DefaultIconSize.width + _iconSpacing;
-    }else{
-        return _iconFull.size.width*_iconSizeScale + _iconSpacing;
-    }
 }
 
 
