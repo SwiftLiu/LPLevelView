@@ -22,8 +22,9 @@
     
     //纯代码初始化
     LPLevelView *lView = [LPLevelView new];
-    lView.frame = CGRectMake(100, 150, levelView.frame.size.width, levelView.frame.size.height);
+    lView.frame = CGRectMake(145, 150, levelView.frame.size.width, levelView.frame.size.height);
     lView.iconColor = [UIColor orangeColor];
+    lView.iconSize = CGSizeMake(20, 20);
     lView.canScore = YES;
     lView.animated = YES;
     lView.level = 3.5;
@@ -34,6 +35,7 @@
     levelView.iconColor = [UIColor redColor];
     levelView.canScore = YES;
     levelView.levelInt = YES;
+    levelView.iconSize = CGSizeMake(20, 20);
     levelView.iconFull = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_full"];
     levelView.iconHalf = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_half"];
     levelView.iconEmpty = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_empty"];

@@ -7,6 +7,9 @@
 //
 
 #import "LPLevelView.h"
+
+#define IconPixelScale 3 //由于资源文件包是三倍图
+
 @interface LPLevelView ()
 {
     UILabel *animateLabel;//评分时动画显示分数
@@ -85,19 +88,19 @@
 #pragma mark - 绘图
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
     //绘制默认图标
     if (_iconColor) {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(context);
         CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
         CGContextSetFillColorWithColor(context, _iconColor.CGColor);
         CGContextFillRect(context, rect);
+        CGContextRestoreGState(context);
     }
     //绘制自定义图标
     else {
         [self drawIcons];//绘制
     }
-    CGContextRestoreGState(context);
 }
 
 //绘制蒙版图像，即剪切路径
@@ -191,7 +194,8 @@
     //实际伸缩比
     CGFloat scale = MIN(wScale, hScale);
     //实际尺寸
-    return CGSizeMake(width * scale, height *scale);
+    CGSize size = CGSizeMake(_iconFull.size.width * scale, _iconFull.size.height * scale);
+    return size;
 }
 
 
