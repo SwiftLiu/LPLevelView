@@ -88,9 +88,9 @@
 		5D5A16771C7416BF00B370CF /* LPLevelView */ = {
 			isa = PBXGroup;
 			children = (
-				5DA151E51C7AF8850035AF6B /* LPLevelView.bundle */,
 				5D5A16781C7416BF00B370CF /* LPLevelView.h */,
 				5D5A16791C7416BF00B370CF /* LPLevelView.m */,
+				5DA151E51C7AF8850035AF6B /* LPLevelView.bundle */,
 			);
 			path = LPLevelView;
 			sourceTree = "<group>";
