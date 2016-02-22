@@ -1,10 +1,10 @@
 //
-//  ViewController.m
-//  Demo
+//  Created by iOS_Liu on 16/2/3.
+//  Copyright © 2016年 iOS_Liu. All rights reserved.
 //
-//  Created by FineexMac on 16/2/17.
-//  Copyright © 2016年 LPiOS. All rights reserved.
-//
+//  作者GitHub主页 https://github.com/SwiftLiu
+//  作者邮箱 1062014109@qq.com
+//  下载链接 https://github.com/SwiftLiu/LPLevelView.git
 
 #import "ViewController.h"
 #import "LPLevelView.h"
