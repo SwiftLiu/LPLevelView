@@ -34,9 +34,6 @@
 - (void)initData
 {
     _maxLevel = 5;
-    _iconFull = [UIImage imageNamed:@"lp_badge_star_full"];
-    _iconHalf = [UIImage imageNamed:@"lp_badge_star_half"];
-    _iconEmpty = [UIImage imageNamed:@"lp_badge_star_empty"];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -60,8 +57,21 @@
 {
     if (_level != level) {
         _level = level;
+        //默认图标
+        if (!_iconFull) {
+            _iconFull = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_full"];
+            _iconHalf = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_half"];
+            _iconEmpty = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_empty"];
+            NSLog(@"LPLevelView：找不到属性iconFull对象，将使用默认风格图标！");
+        }
         [self setNeedsDisplay];
     }
+}
+
+- (void)setMaxLevel:(int)maxLevel
+{
+    if (maxLevel==0) maxLevel = 5;
+    if (_maxLevel != maxLevel) _maxLevel = maxLevel;
 }
 
 - (void)setCanScore:(BOOL)canScore
@@ -69,14 +79,6 @@
     _canScore = canScore;
     self.userInteractionEnabled = canScore;
     self.clipsToBounds = NO;
-}
-
-- (void)setMaxLevel:(int)maxLevel
-{
-    if (maxLevel==0) maxLevel = 5;
-    if (maxLevel != _maxLevel) {
-        _maxLevel = maxLevel;
-    }
 }
 
 
@@ -154,8 +156,7 @@
         //①获取图标
         UIImage *iconImg;
         if (i <= _level) {//整星
-            if (_iconFull)  iconImg = _iconFull;
-            else return;
+            iconImg = _iconFull;
         }else if (i-_level < 1 && !_levelInt) {//半星
             if (_iconHalf) iconImg = _iconHalf;
             else return;

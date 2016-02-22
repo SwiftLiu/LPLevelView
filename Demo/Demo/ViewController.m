@@ -34,9 +34,9 @@
     levelView.iconColor = [UIColor redColor];
     levelView.canScore = YES;
     levelView.levelInt = YES;
-    levelView.iconFull = [UIImage imageNamed:@"lp_badge_star_full"];
-    levelView.iconHalf = [UIImage imageNamed:@"lp_badge_star_half"];
-    levelView.iconEmpty = [UIImage imageNamed:@"lp_badge_star_empty"];
+    levelView.iconFull = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_full"];
+    levelView.iconHalf = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_half"];
+    levelView.iconEmpty = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_empty"];
     levelView.level = 2.5;
 }
 
