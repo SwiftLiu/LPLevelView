@@ -39,8 +39,9 @@
 
 - (void)setFrame:(CGRect)frame
 {
+    CGSize size = self.frame.size;
     [super setFrame:frame];
-    if (!CGSizeEqualToSize(self.frame.size, frame.size)) {
+    if (!CGSizeEqualToSize(size, frame.size)) {
         self.maxLevel = _maxLevel;
         [self setNeedsDisplay];
     }
