@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UIImage *iconHalf;
 ///空星图标
 @property (strong, nonatomic) UIImage *iconEmpty;
-///默认图标颜色，设置了该属性将使用默认图标
+///图标颜色，按图标形状蒙版剪切该颜色
 @property (strong, nonatomic) UIColor *iconColor;
 ///图片尺寸，默认为iconFull图标的尺寸，同时自适应self尺寸
 @property (assign, nonatomic) CGSize iconSize;
@@ -35,6 +35,6 @@
 ///动画颜色，默认橘色
 @property (strong, nonatomic) UIColor *animateColor;
 ///完成评分后处理
-@property (strong, nonatomic) void (^completeScoreBlock)(float level);
+@property (strong, nonatomic) void (^scoreBlock)(float level);
 
 @end

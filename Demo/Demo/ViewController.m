@@ -28,6 +28,9 @@
     lView.canScore = YES;
     lView.animated = YES;
     lView.level = 3.5;
+    [lView setScoreBlock:^(float level) {
+        NSLog(@"打分：%f", level);
+    }];
     [self.view addSubview:lView];
     
     //storyboard生成

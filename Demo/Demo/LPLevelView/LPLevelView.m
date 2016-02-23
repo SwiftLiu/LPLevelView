@@ -224,7 +224,7 @@
         }
         
         if (_animated) [self scoreAnimation];
-        if (_completeScoreBlock) _completeScoreBlock(_level);
+        if (_scoreBlock) _scoreBlock(_level);
     }
 }
 //评分动画
