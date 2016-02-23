@@ -77,6 +77,9 @@
 
 ####3.蒙版剪切自定义图标颜色：
 
+    @property (strong, nonatomic) UIColor *iconColor;
+*绘制
+
     - (void)drawRect:(CGRect)rect
     {
         //绘制默认图标
