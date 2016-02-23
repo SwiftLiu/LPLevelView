@@ -3,11 +3,12 @@
 
 ![评级示图](http://f.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=6c73e249f403738dda4a00228320c16c/3801213fb80e7bec81959e082d2eb9389a506b88.jpg)
 
-###1.支持打分手动评级，点击即可打分，同时回调打分完成block：
+####1.支持打分手动评级，点击即可打分，同时回调打分完成block：
 
     @property (strong, nonatomic) void (^scoreBlock)(float level);
     
-###2.采用绘图渲染界面，高效流畅，可自定义图标和尺寸等：
+####2.采用绘图渲染界面，高效流畅，可自定义图标和尺寸等：
+
     ///整星图标，半星和空星尺寸以整星为准
     @property (strong, nonatomic) UIImage *iconFull;
     ///半星图标
@@ -49,41 +50,41 @@
         }
     }
 
-*蒙版剪切自定义图标颜色：
-    //绘制蒙版图像，即剪切路径
-- (CGImageRef)clipPathImage
-{
-    //方法①：
-    //在内存中创建image绘制画布
-    CGFloat scale = [UIScreen mainScreen].scale;//必须设置画布分辨率，否则会模糊
-    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, scale);
-    CGContextRef imageContext = UIGraphicsGetCurrentContext();
-    //翻转画布坐标系Y轴再平移坐标系原点到(0,0)位置，此处使用矩阵变换
-    CGFloat transY = CGContextGetClipBoundingBox(imageContext).size.height;
-    CGContextConcatCTM(imageContext, CGAffineTransformMake(1, 0, 0, -1, 0, transY));
-    //绘制
-    [self drawIcons];
-    //提取UIImage
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    //释放该画布
-    CGContextRelease(imageContext);
-    UIGraphicsEndImageContext();//关闭image绘制
-    return image.CGImage;
-}
+####3.蒙版剪切自定义图标颜色：
 
-- (void)drawRect:(CGRect)rect
-{
-    //绘制默认图标
-    if (_iconColor) {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSaveGState(context);
-        CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
-        CGContextSetFillColorWithColor(context, _iconColor.CGColor);
-        CGContextFillRect(context, rect);
-        CGContextRestoreGState(context);
+    //绘制蒙版图像，即剪切路径
+    - (CGImageRef)clipPathImage
+    {
+        //在内存中创建image绘制画布
+        CGFloat scale = [UIScreen mainScreen].scale;//必须设置画布分辨率，否则会模糊
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, scale);
+        CGContextRef imageContext = UIGraphicsGetCurrentContext();
+        //翻转画布坐标系Y轴再平移坐标系原点到(0,0)位置，此处使用矩阵变换
+        CGFloat transY = CGContextGetClipBoundingBox(imageContext).size.height;
+        CGContextConcatCTM(imageContext, CGAffineTransformMake(1, 0, 0, -1, 0, transY));
+        //绘制
+        [self drawIcons];
+        //提取UIImage
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        //释放该画布
+        CGContextRelease(imageContext);
+        UIGraphicsEndImageContext();//关闭image绘制
+        return image.CGImage;
     }
-    //绘制自定义图标
-    else {
-        [self drawIcons];//绘制
+
+    - (void)drawRect:(CGRect)rect
+    {
+        //绘制默认图标
+        if (_iconColor) {
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSaveGState(context);
+            CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
+            CGContextSetFillColorWithColor(context, _iconColor.CGColor);
+            CGContextFillRect(context, rect);
+            CGContextRestoreGState(context);
+        }
+        //绘制自定义图标
+        else {
+            [self drawIcons];//绘制
+        }
     }
-}
