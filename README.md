@@ -18,18 +18,19 @@
     ///图片尺寸，默认为iconFull图标的尺寸，同时自适应self尺寸
     @property (assign, nonatomic) CGSize iconSize;
     
-    //绘制图标到画布
+*绘制图标到画布
+
     - (void)drawIcons
     {
         //计算绘制的图标尺寸
-        CGSize size = `[self sizeOfIcon]`;
+        CGSize size = [self sizeOfIcon];
         //纵坐标
         CGFloat y = (self.bounds.size.height - size.height) / 2.l;
         //图标间距
         CGFloat spacing = (self.bounds.size.width - size.width*_maxLevel)/(CGFloat)_maxLevel;
         //横坐标
         CGFloat x = spacing/2.l;
-    
+        
         for (int i=1; i<=_maxLevel; i++) {
             //①获取图标
             UIImage *iconImg;
@@ -50,7 +51,8 @@
         }
     }
     
-    //计算绘制的图标尺寸
+*计算绘制的图标尺寸
+
     - (CGSize)sizeOfIcon
     {
         //最大宽度
@@ -81,17 +83,18 @@
         if (_iconColor) {
             CGContextRef context = UIGraphicsGetCurrentContext();
             CGContextSaveGState(context);
-            CGContextClipToMask(context, rect, `[self clipPathImage]`);//按蒙版图像路径剪切
+            CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
             CGContextSetFillColorWithColor(context, _iconColor.CGColor);
             CGContextFillRect(context, rect);
             CGContextRestoreGState(context);
         }
         //绘制自定义图标
         else {
-            `[self drawIcons]`;//绘制
+            [self drawIcons];//绘制
         }
     }
-    //绘制蒙版图像，即剪切路径
+*绘制蒙版图像，即剪切路径
+
     - (CGImageRef)clipPathImage
     {
         //在内存中创建image绘制画布
