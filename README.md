@@ -52,6 +52,22 @@
 
 ####3.蒙版剪切自定义图标颜色：
 
+    - (void)drawRect:(CGRect)rect
+    {
+        //绘制默认图标
+        if (_iconColor) {
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSaveGState(context);
+            CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
+            CGContextSetFillColorWithColor(context, _iconColor.CGColor);
+            CGContextFillRect(context, rect);
+            CGContextRestoreGState(context);
+        }
+        //绘制自定义图标
+        else {
+            [self drawIcons];//绘制
+        }
+    }
     //绘制蒙版图像，即剪切路径
     - (CGImageRef)clipPathImage
     {
@@ -72,19 +88,4 @@
         return image.CGImage;
     }
 
-    - (void)drawRect:(CGRect)rect
-    {
-        //绘制默认图标
-        if (_iconColor) {
-            CGContextRef context = UIGraphicsGetCurrentContext();
-            CGContextSaveGState(context);
-            CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
-            CGContextSetFillColorWithColor(context, _iconColor.CGColor);
-            CGContextFillRect(context, rect);
-            CGContextRestoreGState(context);
-        }
-        //绘制自定义图标
-        else {
-            [self drawIcons];//绘制
-        }
-    }
+    
