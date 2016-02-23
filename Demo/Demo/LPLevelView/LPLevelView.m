@@ -47,6 +47,16 @@
     }
 }
 
+- (void)setBounds:(CGRect)bounds
+{
+    CGSize size = self.bounds.size;
+    [super setBounds:bounds];
+    if (!CGSizeEqualToSize(size, bounds.size)) {
+        self.maxLevel = _maxLevel;
+        [self setNeedsDisplay];
+    }
+}
+
 - (void)addSubview:(UIView *)view
 {
     if (view == animateLabel) {
