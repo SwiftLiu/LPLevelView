@@ -22,7 +22,7 @@
     - (void)drawIcons
     {
         //计算绘制的图标尺寸
-        CGSize size = [self sizeOfIcon];
+        CGSize size = `[self sizeOfIcon]`;
         //纵坐标
         CGFloat y = (self.bounds.size.height - size.height) / 2.l;
         //图标间距
@@ -49,6 +49,29 @@
             x += size.width + spacing;
         }
     }
+    
+    //计算绘制的图标尺寸
+    - (CGSize)sizeOfIcon
+    {
+        //最大宽度
+        CGFloat width = self.bounds.size.width/(CGFloat)_maxLevel;
+        width = MIN(width, _iconFull.size.width);
+        if (_iconSize.width != 0) width = MIN(width, _iconSize.width);
+        //宽度伸缩比
+        CGFloat wScale = width / _iconFull.size.width;
+        //最大高度
+        CGFloat height = self.bounds.size.height;
+        height = MIN(height, _iconFull.size.height);
+        if (_iconSize.height != 0) height = MIN(height, _iconSize.height);
+        //高度伸缩比
+        CGFloat hScale = height / _iconFull.size.height;
+    
+        //实际伸缩比
+        CGFloat scale = MIN(wScale, hScale);
+        //实际尺寸
+        CGSize size = CGSizeMake(_iconFull.size.width * scale, _iconFull.size.height * scale);
+        return size;
+    }
 
 ####3.蒙版剪切自定义图标颜色：
 
@@ -58,14 +81,14 @@
         if (_iconColor) {
             CGContextRef context = UIGraphicsGetCurrentContext();
             CGContextSaveGState(context);
-            CGContextClipToMask(context, rect, [self clipPathImage]);//按蒙版图像路径剪切
+            CGContextClipToMask(context, rect, `[self clipPathImage]`);//按蒙版图像路径剪切
             CGContextSetFillColorWithColor(context, _iconColor.CGColor);
             CGContextFillRect(context, rect);
             CGContextRestoreGState(context);
         }
         //绘制自定义图标
         else {
-            [self drawIcons];//绘制
+            `[self drawIcons]`;//绘制
         }
     }
     //绘制蒙版图像，即剪切路径
