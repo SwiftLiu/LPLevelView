@@ -3,7 +3,7 @@
 
 下载地址：https://github.com/SwiftLiu/LPLevelView.git
 
-![评级示图](http://f.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=6c73e249f403738dda4a00228320c16c/3801213fb80e7bec81959e082d2eb9389a506b88.jpg)
+![评级示图](http://h.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=aa4031a6a851f3dec7b2b564a4d58122/a8773912b31bb051cf4f4a44317adab44aede077.jpg)
 
 ####1.支持打分手动评级，点击即可打分，同时回调打分完成block：
 
