@@ -79,9 +79,9 @@
 ```
 ####3.蒙版剪切自定义图标颜色：
 ```objc
-    @property (strong, nonatomic) UIColor *iconColor;
-*剪切
+@property (strong, nonatomic) UIColor *iconColor;
 ```
+*剪切
 ```objc
 - (void)drawRect:(CGRect)rect
 {
