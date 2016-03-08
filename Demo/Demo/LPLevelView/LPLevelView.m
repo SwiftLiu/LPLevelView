@@ -67,7 +67,7 @@
 #pragma mark - 设置属性值
 - (void)setLevel:(float)level
 {
-    if (_level != level) {
+    if (_level != level || level == 0) {
         _level = level;
         //默认图标
         if (!_iconFull) {
