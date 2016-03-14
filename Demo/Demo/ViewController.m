@@ -34,15 +34,15 @@
     [self.view addSubview:lView];
     
     //storyboard生成
-//    levelView.backgroundColor = [UIColor clearColor];
-//    levelView.iconColor = [UIColor redColor];
-//    levelView.canScore = YES;
-//    levelView.levelInt = YES;
-//    levelView.iconSize = CGSizeMake(20, 20);
-//    levelView.iconFull = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_full"];
-//    levelView.iconHalf = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_half"];
-//    levelView.iconEmpty = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_empty"];
-//    levelView.level = 2.5;
+    levelView.backgroundColor = [UIColor clearColor];
+    levelView.iconColor = [UIColor redColor];
+    levelView.canScore = YES;
+    levelView.levelInt = YES;
+    levelView.iconSize = CGSizeMake(20, 20);
+    levelView.iconFull = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_full"];
+    levelView.iconHalf = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_half"];
+    levelView.iconEmpty = [UIImage imageNamed:@"LPLevelView.bundle/lp_badge_star_empty"];
+    levelView.level = 2.5;
 }
 
 @end

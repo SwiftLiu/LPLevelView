@@ -230,6 +230,7 @@
 //评分动画
 - (void)scoreAnimation
 {
+    self.userInteractionEnabled = NO;
     //初始化
     if (!animateLabel) {
         animateLabel = [UILabel new];
@@ -252,6 +253,8 @@
     [UIView animateWithDuration:0.7 animations:^{
         animateLabel.center = CGPointMake(x, -40);
         animateLabel.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.userInteractionEnabled = YES;
     }];
 }
 
